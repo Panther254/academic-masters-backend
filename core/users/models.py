@@ -31,9 +31,6 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 	first_name = models.CharField(max_length=255)
 	last_name = models.CharField(max_length=255)
 	email = models.EmailField(max_length=255,unique=True)
-	phone_number = models.CharField(unique=True,max_length=20,null=True)
-	residence = models.CharField(max_length=255,null=True)
-	national_id = models.CharField(unique=True,max_length=255,null=True)
 	is_active = models.BooleanField(default=True)
 	is_staff = models.BooleanField(default=False)
 

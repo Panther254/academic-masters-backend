@@ -38,9 +38,6 @@ class SignUpView(APIView):
 		first_name = data['first_name']
 		last_name = data['last_name']
 		email = data['email']
-		phone_number = data['phone_number']
-		residence = data['residence']
-		national_id = data['national_id']
 		password = data['password']
 		re_password = data['re_password']
 
@@ -51,7 +48,7 @@ class SignUpView(APIView):
 				if User.objects.filter(national_id=national_id).exists():
 					return Response({'error': 'The National ID is already registred'})
 
-				user = User.objects.create_user(email=email,password=password,first_name=first_name,last_name=last_name,phone_number=phone_number,residence=residence,national_id=national_id)
+				user = User.objects.create_user(email=email,password=password,first_name=first_name,last_name=last_name)
 				user.save()
 				content = {"success": "User created sucessfully."}
 				return Response(content, status=status.HTTP_201_CREATED)
