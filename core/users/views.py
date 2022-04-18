@@ -34,7 +34,7 @@ class SignUpView(APIView):
 
 	def post(self, request, format=None):
 		data = self.request.data
-
+		print("data",data)
 		first_name = data['first_name']
 		last_name = data['last_name']
 		email = data['email']
@@ -44,18 +44,15 @@ class SignUpView(APIView):
 		try:
 			if password == re_password:
 				if User.objects.filter(email=email).exists():
-					return Response({'error': 'Email is already registered.'})
-				if User.objects.filter(national_id=national_id).exists():
-					return Response({'error': 'The National ID is already registred'})
-
+					return Response({'error': 'Email is already registered.'},status=status.HTTP_501_NOT_IMPLEMENTED)
 				user = User.objects.create_user(email=email,password=password,first_name=first_name,last_name=last_name)
 				user.save()
 				content = {"success": "User created sucessfully."}
 				return Response(content, status=status.HTTP_201_CREATED)
 			else:
-				return Response({'error': 'Passwords do not match.'})
+				return Response({'error': 'Passwords do not match.'},status=status.HTTP_501_NOT_IMPLEMENTED)
 		except:
-			return Response({'error': 'Something went wrong'})
+			return Response({'error': 'Something went wrong'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -76,15 +73,15 @@ class LoginView(APIView):
 			else:
 				return Response({'error': 'Error logging in'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 		except:
-			return Response({'error': 'Something went wrong'})
+			return Response({'error': 'Something went wrong'},status=status.HTTP_406_NOT_ACCEPTABLE)
 
 class LogoutView(APIView):
 	def post(self,request,format=None):
 		try:
 			auth.logout(request)
-			return Response({'success': 'Logging out sucessful'})
+			return Response({'success': 'Logging out sucessful'},status=status.HTTP_202_ACCEPTED)
 		except:
-			return Response({'error': 'Something went wrong when logging out'})
+			return Response({'error': 'Something went wrong when logging out'},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @method_decorator(ensure_csrf_cookie,name='dispatch')
 class GetCSRFToken(APIView):

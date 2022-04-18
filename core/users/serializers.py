@@ -13,7 +13,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-	jobs_applied = serializers.StringRelatedField(many=True)
 	class Meta:
 		model = User
 		exclude = ['password', 'is_superuser','groups','user_permissions','last_login']

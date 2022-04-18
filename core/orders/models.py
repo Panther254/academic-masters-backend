@@ -54,6 +54,7 @@ class Order(models.Model):
 	pages = models.IntegerField(blank=False)
 	spacing = models.CharField(max_length=200,choices=SPACING_CHOICE)
 	order_status = models.CharField(max_length=200,choices=ORDER_STATUS)
+	order_date = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
 		return self.id
